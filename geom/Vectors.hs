@@ -15,7 +15,7 @@ module Vectors (
 -- The type `Vec3` has the only type constructor `MakeVec3`
 -- The name of the type constructor may be the same as type name
 --
-data Vec3 a = MakeVec3 a a a    deriving Show
+data Vec3 a = MakeVec3 a a a    deriving (Show, Eq)
 
 -- get vector components works for any parameter `a` no 
 -- matter if it's algebraic or not
@@ -58,5 +58,13 @@ vec3_eq (MakeVec3 x1 y1 z1) (MakeVec3 x2 y2 z2) =
 vec3_neq :: Eq a => Vec3 a -> Vec3 a -> Bool
 vec3_neq (MakeVec3 x1 y1 z1) (MakeVec3 x2 y2 z2) = 
   x1 /= x2 || y1 /= y2 || z1 /= z2
+
+-- this is an option if i wouldn't derive Vec3 type from Eq
+-- instance (Eq a) => Eq (Vec3 a) where
+--   (==) a b = vec3_eq a b
+--   (/=) a b = not (a == b)
+
+
+
 
 

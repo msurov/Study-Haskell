@@ -127,6 +127,68 @@ id []
 id id
 ```
 
+## Type declaration
+Tet us define a new type composed of two fields of 
+the same type `a` (`a` here is a tamplete parameter, 
+it can be Double, Int, Char, etc)
+```haskell
+data Complex a = MakeComplex a a
+let z = MakeComplex 1 2
+```
+The type constructor is `MakeComplex`
 
+## Classes
+Class (or class of types) is like a template type in C++. 
+The class defines constraints like
+```haskell
+class Eq a where
+  (==) :: a -> a -> Bool
+  (/=) :: a -> a -> Bool
+```
+This means, that any type which is derived from Eq allows comparing variables.
 
+Let say, I want my data type `A` be comparable, then
+```haskell
+data A a = A a deriving Eq
+let x = A 1
+let y = A 2
+print (x == y)
+```
+
+## Class Extension
+I can extend classes. For example, I want we type also 
+has `<, <= >, >=` operations, then
+```haskell
+class (Eq a) => Ord a where
+  (<), (>), (<=), (>=) :: a -> a -> Bool
+```
+then class Ord has derives operations `==`, `/=` and also has 
+new operations.
+
+### Example:
+Complex numbers are comparable and printable. I can simply derive 
+new type from the base classes
+```haskell
+data Complex a = MakeComplex a a deriving (Show, Eq)
+```
+
+### Example:
+or I can declare type operators 
+```haskell
+instance (Eq a) => Eq (Complex a) where
+  (==) (MakeComplex x1 y1) (MakeComplex x2 y2) = x1 == y1 && x2 == y2
+  (/=) a b = not (a == b)
+```
+### Example:
+Standard function sort has the following syntax
+```haskell
+sort :: Ord a => [a] -> [a]
+```
+
+## Class Multiple Extension
+The same, but using several classes
+```haskell
+instance (Eq a, Show a) => Complex a where
+  ...
+```
 
