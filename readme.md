@@ -102,3 +102,31 @@ tail c == "bc"
 b !! 1 == 2
 ```
 
+Test if the given element presented the list
+```haskell
+let l = "abc"
+elem 'a' l
+```
+
+```haskell
+l = "abcdefg"
+length l
+```
+
+## Standard functions
+The identity `id` 
+```haskell
+id :: a -> a
+id x = x
+```
+The function take argument of any type. 
+Example:
+```haskell
+id True
+id []
+id id
+```
+
+
+
+
