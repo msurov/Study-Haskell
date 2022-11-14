@@ -135,7 +135,13 @@ it can be Double, Int, Char, etc)
 data Complex a = MakeComplex a a
 let z = MakeComplex 1 2
 ```
-The type constructor is `MakeComplex`
+The type constructor is `MakeComplex`. The type represents 
+Cartesian's product of two fields of a given type `a`.
+
+New type can be also composed as sum of values, for example
+```haskell
+data Ordering = LT | EQ | GT
+```
 
 ## Classes
 Class (or class of types) is like a template type in C++. 
@@ -153,6 +159,28 @@ data A a = A a deriving Eq
 let x = A 1
 let y = A 2
 print (x == y)
+```
+
+Class in Haskell defines a list of functions, operators, methods.
+It looks like abstract class in C++:
+### Exmaple
+```haskell
+class Ord a where
+  compare :: a -> a -> Ordering
+  (<), (<=), (>), (>=)  :: a -> a -> Bool
+  (==), (/=) :: a -> a -> Bool
+  min, max :: a -> a -> a
+  ...
+```
+and the class `Ord` may have default implementation of the functions
+```haskell
+class Ord a where
+  compare x y
+    | x == y    = EQ
+    | x <= y    = LT
+    | otherwise = GT
+  x < y = case compare x y of { EQ -> True; _ -> False }
+  x >= y = case compare x y of { LT -> False; _ -> True }
 ```
 
 ## Class Extension
@@ -192,3 +220,17 @@ instance (Eq a, Show a) => Complex a where
   ...
 ```
 
+## Standard Classes
+```haskell
+--- comparable type
+Eq
+  ==, /=
+Ord
+  <, <=, >, >=
+--- previous and next elements
+Enum
+  pred, succ :: a -> a
+--- lower and upper bounds of ordered set
+Bounded
+  minBound, maxBound :: a
+```
