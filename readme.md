@@ -14,7 +14,43 @@ a = div 136 99
 ```
 
 ## Function local variables
+```haskell
+--
+-- simple recursion
+--
+fact :: Integer -> Integer
+fact n
+  | n == 0    = 1
+  | otherwise = n * fact (n - 1)
 
+--
+-- simple recursion
+--
+fact' :: Integer -> Integer
+fact' n = if n == 0 then 1 else n * fact' (n - 1)
+
+--
+-- local variable helper, tail recursion
+--
+fact'' :: Integer -> Integer
+fact'' n = helper n 1
+  where
+    helper n acc
+      | n > 1     = helper (n - 1) (n * acc)
+      | otherwise = acc
+
+--
+-- local variable helper, tail recursion
+--
+fact''' :: Integer -> Integer
+fact''' n = 
+  let 
+    helper n acc
+      | n > 1     = helper (n - 1) (n * acc)
+      | otherwise = acc
+  in
+    helper n 1
+```
 
 ## Lambda functions
 The function adds three values
@@ -47,6 +83,9 @@ fact n = case n of
   0 -> 1
   _ -> n * fact (n - 1)
 ```
+the argument **matching forces the computations** because the 
+program should compare the argument and the pattern. 
+The lazy computations stop when matching function pattern.
 
 ## Lists
 ```haskell
